@@ -137,6 +137,7 @@ def get_yam_robot(
     directions = list(hw.directions)
     kp = hw.kp.copy()
     kd = hw.kd.copy()
+    gravity_comp_factor = hw.gravity_comp_factor.copy()
     motor_offsets = [0.0] * len(motor_list)
 
     if with_gripper:
@@ -148,6 +149,7 @@ def get_yam_robot(
         directions.append(1)
         kp = np.append(kp, gripper_kp)
         kd = np.append(kd, gripper_kd)
+        gravity_comp_factor = np.append(gravity_comp_factor, 1.0)
 
     gripper_limits = gripper_type.get_gripper_limits() if with_gripper else None
     gripper_needs_cal = gripper_type.get_gripper_needs_calibration() if with_gripper else False
@@ -214,7 +216,7 @@ def get_yam_robot(
         motor_chain=motor_chain,
         xml_path=model_path,
         use_gravity_comp=True,
-        gravity_comp_factor=hw.gravity_comp_factor,
+        gravity_comp_factor=gravity_comp_factor,
         joint_limits=joint_limits,
         kp=kp,
         kd=kd,
