@@ -50,7 +50,7 @@ class _ArmHWConfig:
     directions: tuple  # motor polarity (+1 / -1), one per arm joint
     kp: np.ndarray  # position gain, one per arm joint
     kd: np.ndarray  # damping gain,  one per arm joint
-    gravity_comp_factor: float
+    gravity_comp_factor: np.ndarray  # per-joint gravity compensation factors
 
 
 # YAM / YAM Pro / YAM Ultra: 3xDM4340 (shoulder) + 3xDM4310 (elbow/wrist)
@@ -66,7 +66,7 @@ _YAM_HW = _ArmHWConfig(
     directions=(1, 1, 1, 1, 1, 1),
     kp=np.array([80.0, 80.0, 80.0, 40.0, 10.0, 10.0]),
     kd=np.array([5.0, 5.0, 5.0, 1.5, 1.5, 1.5]),
-    gravity_comp_factor=1.3,
+    gravity_comp_factor=np.array([1.0, 0.9, 0.85, 1.0, 1.0, 1.0]),
 )
 
 # big_yam: heavier arm - joints 1-2 use DM6248, joints 3-4 use DM4340, joints 5-6 use DM4310.
@@ -83,7 +83,7 @@ _BIG_YAM_HW = _ArmHWConfig(
     directions=(1, -1, 1, 1, 1, 1),
     kp=np.array([80.0, 80.0, 80.0, 40.0, 40.0, 10.0]),
     kd=np.array([5.0, 5.0, 5.0, 3.0, 1.5, 1.5]),
-    gravity_comp_factor=1.0,
+    gravity_comp_factor=np.array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0]),
 )
 
 _ARM_HW_CONFIGS: dict[ArmType, _ArmHWConfig] = {

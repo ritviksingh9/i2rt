@@ -68,7 +68,7 @@ class MotorChainRobot(Robot):
         xml_path: Optional[str] = None,
         use_gravity_comp: bool = True,
         gravity: Optional[np.ndarray] = None,
-        gravity_comp_factor: float = 1.0,  # New parameter with default value
+        gravity_comp_factor: Union[float, List[float], np.ndarray] = 1.0,
         gripper_index: Optional[int] = None,  # Zero starting index: if you have a 6 dof arm and last one is gripper: 6
         kp: Union[float, List[float]] = 10.0,
         kd: Union[float, List[float]] = 1.0,
@@ -132,7 +132,7 @@ class MotorChainRobot(Robot):
         self._clip_motor_torque = clip_motor_torque
         self.motor_chain = motor_chain
         self.use_gravity_comp = use_gravity_comp
-        self.gravity_comp_factor = gravity_comp_factor  # Store the factor
+        self.gravity_comp_factor = np.asarray(gravity_comp_factor, dtype=np.float64)
 
         # variables for gripper effort limiting
         self._gripper_index = gripper_index
